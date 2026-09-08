@@ -20,6 +20,8 @@ Microsoft 365 テナントと Azure サブスクリプションがあれば、�
 手元に `az`（Azure CLI）と `node`（`npx` が使えればよい）が要る。
 
 ```bash
+git clone https://github.com/TimewitchJP/free-slot-finder.git
+cd free-slot-finder
 az login
 ./provision-azure.sh --name <StaticWebApp名> --rg <リソースグループ名>   # 置き場所を作る
 ./setup-entra.sh --url https://<上で出たホスト>/ --admin-consent          # アプリ登録 + config.js
