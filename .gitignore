@@ -1,0 +1,9 @@
+.DS_Store
+.claude/
+
+# テナント固有の値。config.example.js を元に各自で作る
+config.js
+config.local.js
+
+# デプロイ先(Static Web App 名とリソースグループ)。provision-azure.sh が作る
+.deploy.env

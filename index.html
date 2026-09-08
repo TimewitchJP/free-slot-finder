@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>空き日程さがし</title>
+<link rel="stylesheet" href="style.css?v=dev">
+</head>
+<body>
+
+<header class="bar">
+  <h1>空き日程さがし</h1>
+  <div class="account">
+    <span id="account-name" class="account-name"></span>
+    <button id="signin" type="button" class="btn btn-ghost">サインイン</button>
+    <button id="signout" type="button" class="btn btn-ghost" hidden>サインアウト</button>
+  </div>
+</header>
+
+<main>
+  <div id="setup-error" class="notice notice-error" hidden></div>
+  <div id="signin-hint" class="notice notice-info" hidden>右上の「サインイン」から Microsoft アカウントでサインインしてください。</div>
+
+  <section class="card">
+    <h2>1. 誰の予定を見るか</h2>
+
+    <div class="row">
+      <label for="preset">プリセット</label>
+      <div class="preset-line">
+        <select id="preset">
+          <option value="">（選択しない）</option>
+        </select>
+        <button id="preset-save" type="button" class="btn btn-ghost">名前をつけて保存</button>
+        <button id="preset-delete" type="button" class="btn btn-ghost">削除</button>
+        <label class="check">
+          <input type="checkbox" id="preset-default"> 起動時にこれを開く
+        </label>
+      </div>
+      <p class="help">よく使う組み合わせ（例:「自分＋佐藤さん」）を保存しておける。保存先はこのブラウザ内。</p>
+    </div>
+
+    <div class="row">
+      <label for="people-search">メンバーを探す</label>
+      <div class="search-line">
+        <input type="text" id="people-search" placeholder="名前かメールアドレスの一部（例: 田嶋）" autocomplete="off">
+        <button id="load-group" type="button" class="btn btn-ghost" hidden></button>
+      </div>
+      <div id="people-status" class="help"></div>
+      <div id="people-results" class="people" hidden></div>
+    </div>
+
+    <div class="row">
+      <label>選んだ人</label>
+      <div id="selected" class="selected"></div>
+      <p class="help selected-foot">
+        <span id="selected-count"></span>
+        <button id="clear-all" type="button" class="linkbtn">全部消す</button>
+        <label class="check"><input type="checkbox" id="include-self"> 自分を含める</label>
+      </p>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>2. 探し方</h2>
+    <div class="grid">
+      <div class="row">
+        <label for="date-start">開始日</label>
+        <input type="date" id="date-start">
+      </div>
+      <div class="row">
+        <label for="date-end">終了日</label>
+        <input type="date" id="date-end">
+      </div>
+      <div class="row">
+        <label for="business-end">探す時間帯</label>
+        <div class="inline">
+          <span id="business-start-text"></span>
+          <span>〜</span>
+          <select id="business-end"></select>
+        </div>
+      </div>
+      <div class="row">
+        <label for="min-minutes">最低確保時間</label>
+        <select id="min-minutes">
+          <option value="30">30分</option>
+          <option value="60">60分</option>
+          <option value="90">90分</option>
+          <option value="120">120分</option>
+        </select>
+      </div>
+      <div class="row">
+        <label for="max-results">候補の最大件数</label>
+        <select id="max-results">
+          <option value="3">3件</option>
+          <option value="5">5件</option>
+          <option value="10">10件</option>
+          <option value="0">すべて</option>
+        </select>
+      </div>
+      <div class="row row-checks">
+        <label class="check"><input type="checkbox" id="skip-weekends"> 土日を除く</label>
+        <label class="check"><input type="checkbox" id="skip-holidays"> 祝日を除く</label>
+        <label class="check"><input type="checkbox" id="one-per-day"> 1日1件に絞る</label>
+        <label class="check"><input type="checkbox" id="tentative-busy"> 仮の予定も埋まっている扱いにする</label>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button id="search" type="button" class="btn btn-primary">空き日程を出す</button>
+      <span id="status" class="status"></span>
+    </div>
+  </section>
+
+  <section class="card" id="result-card" hidden>
+    <h2>3. 候補</h2>
+    <div id="result-warnings"></div>
+    <pre id="result" class="result"></pre>
+    <div class="actions">
+      <button id="copy" type="button" class="btn">コピー</button>
+      <span id="copy-status" class="status"></span>
+    </div>
+    <p class="help" id="result-note"></p>
+  </section>
+</main>
+
+<script src="config.js?v=dev"></script>
+<script src="vendor/msal-browser.min.js"></script>
+<script src="holidays.js?v=dev"></script>
+<script src="slots.js?v=dev"></script>
+<script src="graph.js?v=dev"></script>
+<script src="auth.js?v=dev"></script>
+<script src="app.js?v=dev"></script>
+</body>
+</html>

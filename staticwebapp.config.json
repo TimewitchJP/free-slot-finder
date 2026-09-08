@@ -1,0 +1,7 @@
+{
+  "navigationFallback": { "rewrite": "/index.html", "exclude": ["/vendor/*", "/*.css", "/*.js"] },
+  "globalHeaders": {
+    "X-Content-Type-Options": "nosniff",
+    "Referrer-Policy": "same-origin"
+  }
+}

@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>サインイン処理中</title>
+<style>
+  body { font-family: "Hiragino Sans", "Yu Gothic", system-ui, sans-serif; padding: 24px; color: #24303c; }
+  #error { color: #c0392b; white-space: pre-wrap; }
+</style>
+</head>
+<body>
+<!--
+  サインインのポップアップが最後に戻ってくるページ。
+  MSAL v5 はポップアップの URL を覗きに行くのではなく、この画面から
+  BroadcastChannel で応答を送り返してもらう作りになっている。
+  そのため空ページではいつまでも完了しない。ここで応答を送って窓を閉じる。
+  アプリ本体は読み込まない(本体を開くとサインインの途中状態を壊す)。
+-->
+<p id="message">サインイン処理中です。この画面は自動で閉じます。</p>
+<p id="error"></p>
+
+<script src="vendor/msal-redirect-bridge.min.js"></script>
+<script>
+  (function () {
+    "use strict";
+    function fail(text) {
+      document.getElementById("message").textContent = "サインインを完了できませんでした。";
+      document.getElementById("error").textContent = text;
+    }
+    if (!window.msalRedirectBridge) {
+      fail("vendor/msal-redirect-bridge.min.js を読み込めませんでした。");
+      return;
+    }
+    try {
+      Promise.resolve(window.msalRedirectBridge.broadcastResponseToMainFrame())
+        .catch(function (e) { fail(e && e.message ? e.message : String(e)); });
+    } catch (e) {
+      fail(e && e.message ? e.message : String(e));
+    }
+  })();
+</script>
+</body>
+</html>
